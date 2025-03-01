@@ -16,7 +16,7 @@ enum Options {
 }
 
 fn main() {
-    let mut words: Vec<&str> = vec!["Погода", "Окно", "Весна", "Самокат"];
+    let mut words: Vec<&str> = vec!["Weather", "Window", "Spring", "Scooter"];
     let mut user_option: String = String::new();
     println!("Виселица\n");
     println!("Введите 'start', чтобы начать игру или 'exit', чтобы завершить игру");
@@ -46,13 +46,13 @@ fn main() {
         }
 
         let mut rng: ThreadRng = rand::rng();
-        let word: String = words.choose(&mut rng).unwrap().to_string().to_lowercase();
+        words.shuffle(&mut rng);
+        let word: String = words.choose(&mut rng).unwrap().to_lowercase();
         let word_chars: Vec<char> = word.chars().collect();
-        let mut guessed_word = vec!['*'; word.len()];
+        let mut guessed_word: Vec<char> = vec!['*'; word.len()];
 
         let mut attempts = 6;
         let mut guessed_letters: Vec<char> = vec![];
-        words.shuffle(&mut rng);
 
         while attempts > 0 && guessed_word.contains(&'*') {
             println!("Слово {}", guessed_word.iter().collect::<String>());
@@ -64,7 +64,7 @@ fn main() {
             let mut user_letter: String = String::new();
             io::stdin().read_line(&mut user_letter).unwrap();
 
-            let user_letter = user_letter.trim().to_lowercase();
+            let user_letter: String = user_letter.trim().to_lowercase();
             if user_letter.len() != 1 {
                 println!("Введите только 1 букву!");
                 continue;
